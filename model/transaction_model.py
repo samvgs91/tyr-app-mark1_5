@@ -17,12 +17,7 @@ def get_transacciones_by_month(year: int, month_id: int, trans_types: list[int])
             t.monto AS monto,
             t.descripcion AS descripcion,
             t.subcategoriaid AS subcategoriaid,
-            sc.nombresubcategoria AS subcategoria,
-            t.fecha AS Fecha,
-            m.nombremoneda AS Moneda,
-            t.monto AS Monto,
-            t.descripcion AS Descripcion,
-            sc.nombresubcategoria AS SubCategoria
+            sc.nombresubcategoria AS subcategoria
         FROM transaccion AS t
         LEFT JOIN moneda AS m ON t.monedaid = m.id
         LEFT JOIN subcategoria AS sc ON t.subcategoriaid = sc.id
