@@ -1,0 +1,7 @@
+/.vscode
+/files
+/recursos
+/__pycache__
+devtyrenv/
+**/__pycache__/
+.env
