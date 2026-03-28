@@ -9,18 +9,21 @@ def load_default_subcategoria_id():
     return 1  # ¡Actualizado al nuevo ID de Supabase!
 
 def format_columns(df):
-    """Estandariza las columnas de Postgres (minúsculas) para que el frontend las reconozca"""
+    """Estandariza las columnas de Postgres en min?sculas."""
     if not df.empty:
         col_map = {
-            'id': 'Id',
-            'nombresubcategoria': 'NombreSubCategoria',
-            'categoriaid': 'CategoriaId',
-            'nombremoneda': 'Moneda',
-            'simbolomoneda': 'SimboloMoneda',
-            'nombrefuentetransaccion': 'TarjetaOrigen',
-            'fuentetransaccionid': 'FuenteTransaccionId'
+            'id': 'id',
+            'nombresubcategoria': 'nombresubcategoria',
+            'categoriaid': 'categoriaid',
+            'nombrecategoria': 'nombrecategoria',
+            'ordenid': 'ordenid',
+            'nombremoneda': 'moneda',
+            'simbolomoneda': 'simbolomoneda',
+            'nombrefuentetransaccion': 'tarjetaorigen',
+            'fuentetransaccionid': 'fuentetransaccionid',
+            'subcategoriaid': 'subcategoriaid',
         }
-        return df.rename(columns=lambda x: col_map.get(str(x).lower(), x))
+        return df.rename(columns=lambda x: col_map.get(str(x).lower(), str(x).lower()))
     return df
 
 def load_subcategories_df():
