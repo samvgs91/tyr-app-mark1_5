@@ -1,4 +1,3 @@
-import json
 import openai
 import re
 from datetime import datetime,date
@@ -31,10 +30,6 @@ def get_month_range(year, month):
     # Convert to string format YYYY-MM-DD
     return start_date.strftime('%Y-%m-%d'), next_month_date.strftime('%Y-%m-%d')
 
-
-def load_ai_config():
-    with open("recursos/ai_configuration.json", "r", encoding="utf-8") as file:
-        return json.load(file)
 
 def get_system_columns(operation):
     now = datetime.now()

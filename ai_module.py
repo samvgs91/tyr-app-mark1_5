@@ -3,7 +3,8 @@ import re
 from openai import OpenAI
 from datetime import datetime
 from crud import get_all_subcategories,get_all_monedas,batch_load_transacciones
-from utils import load_ai_config,detect_currency,extract_amount
+from ai_configuration import AI_CONFIGURATION
+from utils import detect_currency,extract_amount
 import json
 import os
 from dotenv import load_dotenv
@@ -29,7 +30,7 @@ else:
 
 subcategories = subcategories_names_list
 
-config = load_ai_config()
+config = AI_CONFIGURATION
 
 # Función para determinar la subcategoría basada en palabras clave
 def determine_subcategory(description):
