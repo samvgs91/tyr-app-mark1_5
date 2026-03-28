@@ -52,11 +52,11 @@ def get_detalle_presupuesto(budget_id: int):
     query = '''
         SELECT
             d.id,
-            d.subcategoriaid AS SubCategoriaId,
-            sc.nombresubcategoria AS SubCategoria,
-            d.monedaid AS MonedaId,
-            m.simbolomoneda AS Moneda,
-            d.montopresupuesto as Monto
+            d.subcategoriaid AS subcategoriaid,
+            sc.nombresubcategoria AS subcategoria,
+            d.monedaid AS monedaid,
+            m.simbolomoneda AS moneda,
+            d.montopresupuesto AS monto
         FROM app.detallepresupuesto AS d
         LEFT JOIN app.moneda AS m ON d.monedaid = m.id
         LEFT JOIN app.subcategoria as sc ON d.subcategoriaid = sc.id
@@ -98,6 +98,10 @@ def create_detalle_presupuesto(budget_id: int, subcategoria_id: int, moneda_id: 
         return create_message_fail
 
 def batch_load_detalle_presupuesto(detalle_presupuesto_df: pd.DataFrame, budget_id: int):
+    normalized_df = detalle_presupuesto_df.rename(
+        columns=lambda col: str(col).strip().lower()
+    )
+
     # Extraemos los datos del DataFrame de forma limpia
     data_to_insert = [
         (
@@ -105,7 +109,7 @@ def batch_load_detalle_presupuesto(detalle_presupuesto_df: pd.DataFrame, budget_
             int(row.subcategoriaid), 
             int(row.monedaid), 
             float(row.monto)
-        ) for _, row in detalle_presupuesto_df.iterrows()
+        ) for _, row in normalized_df.iterrows()
     ]
 
     # UPSERT para Postgres
