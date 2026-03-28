@@ -59,10 +59,10 @@ def get_all_subcategories():
     conn = get_connection()
     query = '''
             SELECT 
-                sc.id AS SubCategoriaId,
-                c.nombrecategoria AS NombreCategoria,
-                sc.nombresubcategoria AS NombreSubCategoria,
-                ROW_NUMBER() OVER(ORDER BY sc.id ) AS OrdenId
+                sc.id AS subcategoriaid,
+                c.nombrecategoria AS nombrecategoria,
+                sc.nombresubcategoria AS nombresubcategoria,
+                ROW_NUMBER() OVER(ORDER BY sc.id ) AS ordenid
             FROM subcategoria as sc 
             LEFT JOIN categoria as c ON sc.categoriaid = c.id
             WHERE sc.eliminado = false
