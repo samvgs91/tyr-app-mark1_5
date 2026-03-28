@@ -3,3 +3,5 @@ openai
 pandas
 python-dotenv
 psycopg2-binary
+plotly
+streamlit-aggrid
