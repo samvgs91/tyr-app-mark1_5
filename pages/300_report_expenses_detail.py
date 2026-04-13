@@ -1,7 +1,8 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-from st_aggrid import AgGrid, GridOptionsBuilder, GridUpdateMode, DataReturnMode
+from st_aggrid import GridOptionsBuilder, GridUpdateMode, DataReturnMode
+from safe_aggrid import render_aggrid
 
 from model.reporting import get_detalle_gastos
 
@@ -95,7 +96,7 @@ if monto_col:
 gb.configure_pagination(paginationAutoPageSize=False, paginationPageSize=25)
 gb.configure_side_bar(filters_panel=True, columns_panel=True)
 
-AgGrid(
+render_aggrid(
     filtered_df,
     gridOptions=gb.build(),
     data_return_mode=DataReturnMode.AS_INPUT,
@@ -104,4 +105,5 @@ AgGrid(
     theme="streamlit",
     height=500,
     use_container_width=True,
+    fallback_label="expense transactions",
 )
