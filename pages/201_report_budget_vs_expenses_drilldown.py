@@ -1,5 +1,6 @@
 import pandas as pd
 import plotly.express as px
+import plotly.graph_objects as go
 import streamlit as st
 
 from model.reporting import (
@@ -109,22 +110,25 @@ def render_selector(
 
 
 def render_pie(summary_df: pd.DataFrame, level_column: str, value_column: str, title: str) -> None:
-    fig = px.pie(
-        summary_df,
-        names=level_column,
-        values=value_column,
-        title=title,
-        hole=0.45,
+    # Pre-build hover text so we don't rely on customdata alignment.
+    hover_texts = [
+        f"<b>{row[level_column]}</b><br>"
+        f"Monto: {row[value_column]:,.2f}<br>"
+        f"Participacion: {row['share']:.1%}"
+        for _, row in summary_df.iterrows()
+    ]
+
+    fig = go.Figure(
+        go.Pie(
+            labels=summary_df[level_column],
+            values=summary_df[value_column],
+            hole=0.45,
+            textinfo="percent+label",
+            hovertext=hover_texts,
+            hoverinfo="text",
+        )
     )
-    fig.update_traces(
-        textinfo="percent+label",
-        customdata=summary_df[[value_column, "share"]],
-        hovertemplate=(
-            "<b>%{label}</b><br>"
-            "Monto: %{customdata[0]:,.2f}<br>"
-            "Participacion: %{customdata[1]:.1%}<extra></extra>"
-        ),
-    )
+    fig.update_layout(title_text=title)
     st.plotly_chart(fig, use_container_width=True)
 
 
