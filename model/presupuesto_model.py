@@ -112,16 +112,16 @@ def batch_load_detalle_presupuesto(detalle_presupuesto_df: pd.DataFrame, budget_
         ) for _, row in normalized_df.iterrows()
     ]
 
-    # UPSERT para Postgres
+    # UPSERT para Postgres con índice parcial
     upsert_sql = """
         INSERT INTO app.detallepresupuesto (cabecerapresupuestoid, subcategoriaid, monedaid, montopresupuesto, fechacreacion, fechamodificacion, modificadopor, eliminado)
         VALUES %s
-        ON CONFLICT (cabecerapresupuestoid, subcategoriaid)
+        ON CONFLICT (cabecerapresupuestoid, subcategoriaid, monedaid) WHERE (eliminado = false)
         DO UPDATE SET 
             fechamodificacion = CURRENT_TIMESTAMP,
             modificadopor = EXCLUDED.modificadopor,
             montopresupuesto = EXCLUDED.montopresupuesto,
-            eliminado = EXCLUDED.eliminado;
+            eliminado = false;
     """
     try:
         conn = get_connection()
