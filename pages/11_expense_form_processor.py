@@ -98,6 +98,9 @@ def mostrar_opcion_cargar_archivo(expense_type_code:int):
                     st.error("El archivo Excel debe contener las columnas exactas 'fecha' y 'monto'.")
                     return
 
+                # agregar parseo de fecha para fozar que la fecha tenga un tipo de datos
+                data_test_df['fecha'] = pd.to_datetime(data_test_df['fecha'], dayfirst=False, errors='coerce')
+
                 anio_seleccionado = st.session_state['anio_seleccionado']
                 mes_seleccionado = st.session_state['mes_seleccionado']
 
